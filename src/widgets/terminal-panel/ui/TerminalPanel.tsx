@@ -4,9 +4,56 @@ import React, { useState, useEffect, useRef } from "react";
 import { Terminal, Trash2, RotateCcw } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/app/providers/store";
 import { addLog, clearLogs } from "@/entities/terminal/model/terminal.slice";
-import { setTheme } from "@/entities/settings/model/settings.slice";
+import { setTheme, setPreviewOpen, setPreviewActiveTabId } from "@/entities/settings/model/settings.slice";
 import { FileNode } from "@/entities/file/types";
 import { ScrollArea } from "@/shared/ui/ScrollArea";
+import { createNode, deleteNode } from "@/entities/file/model/files.slice";
+
+// Path resolution helpers
+const resolvePath = (
+  nodes: FileNode[],
+  path: string,
+): { parentId: string | null; name: string } | null => {
+  const cleanPath = path.startsWith("/") ? path : "/" + path;
+  const parts = cleanPath.split("/").filter(Boolean);
+
+  if (parts.length === 0) return null;
+  if (parts.length === 1) {
+    return { parentId: null, name: parts[0] };
+  }
+
+  let currentNodes = nodes;
+  let currentParentId: string | null = null;
+
+  for (let i = 0; i < parts.length - 1; i++) {
+    const segment = parts[i];
+    const foundNode = currentNodes.find(
+      (n) => n.name === segment && n.type === "folder",
+    );
+    if (!foundNode) {
+      return null;
+    }
+    currentParentId = foundNode.id;
+    currentNodes = foundNode.children || [];
+  }
+
+  return {
+    parentId: currentParentId,
+    name: parts[parts.length - 1],
+  };
+};
+
+const findNodeByPath = (nodes: FileNode[], path: string): FileNode | null => {
+  const cleanPath = path.startsWith("/") ? path : "/" + path;
+  for (const node of nodes) {
+    if (node.path === cleanPath) return node;
+    if (node.children) {
+      const found = findNodeByPath(node.children, path);
+      if (found) return found;
+    }
+  }
+  return null;
+};
 
 export function TerminalPanel() {
   const [inputVal, setInputVal] = useState("");
@@ -62,13 +109,13 @@ export function TerminalPanel() {
         dispatch(addLog("Available commands:"));
         dispatch(addLog("  help                Display list of commands"));
         dispatch(addLog("  clear               Clear terminal logs"));
-        dispatch(
-          addLog("  ls                  List all files in workspace tree"),
-        );
+        dispatch(addLog("  ls                  List all files in workspace tree"));
+        dispatch(addLog("  touch <filename>    Create a new empty file"));
+        dispatch(addLog("  mkdir <dirname>     Create a new folder"));
+        dispatch(addLog("  rm <path>           Delete a file or folder"));
+        dispatch(addLog("  cat <filename>      Print file content"));
         dispatch(addLog("  theme <light|dark>  Toggle color theme"));
-        dispatch(
-          addLog("  npm run dev         Start Next.js mockup dev server"),
-        );
+        dispatch(addLog("  npm run dev         Start Next.js mockup dev server"));
         break;
 
       case "clear":
@@ -83,6 +130,82 @@ export function TerminalPanel() {
           fileList.forEach((line) => dispatch(addLog(line)));
         }
         break;
+
+      case "touch": {
+        const path = args[0];
+        if (!path) {
+          dispatch(addLog("touch: missing file operand"));
+          break;
+        }
+        const resolved = resolvePath(fileTree, path);
+        if (!resolved) {
+          dispatch(addLog(`touch: cannot touch '${path}': No such file or directory`));
+          break;
+        }
+        const existing = findNodeByPath(fileTree, path);
+        if (existing) {
+          break;
+        }
+        dispatch(createNode({ parentId: resolved.parentId, name: resolved.name, type: "file" }));
+        dispatch(addLog(`Created file: ${path}`));
+        break;
+      }
+
+      case "mkdir": {
+        const path = args[0];
+        if (!path) {
+          dispatch(addLog("mkdir: missing operand"));
+          break;
+        }
+        const resolved = resolvePath(fileTree, path);
+        if (!resolved) {
+          dispatch(addLog(`mkdir: cannot create directory '${path}': No such file or directory`));
+          break;
+        }
+        const existing = findNodeByPath(fileTree, path);
+        if (existing) {
+          dispatch(addLog(`mkdir: cannot create directory '${path}': File exists`));
+          break;
+        }
+        dispatch(createNode({ parentId: resolved.parentId, name: resolved.name, type: "folder" }));
+        dispatch(addLog(`Created directory: ${path}`));
+        break;
+      }
+
+      case "rm": {
+        const path = args[0];
+        if (!path) {
+          dispatch(addLog("rm: missing operand"));
+          break;
+        }
+        const node = findNodeByPath(fileTree, path);
+        if (!node) {
+          dispatch(addLog(`rm: cannot remove '${path}': No such file or directory`));
+          break;
+        }
+        dispatch(deleteNode(node.id));
+        dispatch(addLog(`Removed: ${path}`));
+        break;
+      }
+
+      case "cat": {
+        const path = args[0];
+        if (!path) {
+          dispatch(addLog("cat: missing operand"));
+          break;
+        }
+        const node = findNodeByPath(fileTree, path);
+        if (!node) {
+          dispatch(addLog(`cat: ${path}: No such file or directory`));
+          break;
+        }
+        if (node.type === "folder") {
+          dispatch(addLog(`cat: ${path}: Is a directory`));
+          break;
+        }
+        dispatch(addLog(node.content || ""));
+        break;
+      }
 
       case "theme":
         const targetTheme = args[0]?.toLowerCase();
@@ -99,6 +222,8 @@ export function TerminalPanel() {
           dispatch(addLog("restarting next dev server..."));
           dispatch(addLog("ready - started server on 0.0.0.0:3000"));
           dispatch(addLog("compiled successfully in 800ms."));
+          dispatch(setPreviewOpen(true));
+          dispatch(setPreviewActiveTabId("preview"));
         } else {
           dispatch(
             addLog(`npm subcommand not recognized: npm ${args.join(" ")}`),

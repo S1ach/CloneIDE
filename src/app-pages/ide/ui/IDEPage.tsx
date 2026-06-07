@@ -8,8 +8,11 @@ import { EditorLayout } from "@/widgets/editor-layout/ui/EditorLayout";
 import { TerminalPanel } from "@/widgets/terminal-panel/ui/TerminalPanel";
 import { PreviewPanel } from "@/widgets/preview-panel/ui/PreviewPanel";
 import { CommandPalette } from "@/features/command-palette/ui/CommandPalette";
+import { useAppSelector } from "@/app/providers/store";
 
 export function IDEPage() {
+  const previewOpen = useAppSelector((state) => state.settings.previewOpen);
+
   return (
     <div className="flex h-screen w-screen bg-bg-primary overflow-hidden">
       {/* 1. Leftmost Fixed Activity Icon Bar */}
@@ -25,7 +28,7 @@ export function IDEPage() {
           <Separator className="panel-resize-handle" />
 
           {/* Core Code Editor & Terminal Panel split vertically */}
-          <Panel defaultSize="50%" minSize="30%">
+          <Panel defaultSize={previewOpen ? "50%" : "80%"} minSize="30%">
             <Group orientation="vertical">
               <Panel defaultSize="70%" minSize="30%">
                 <EditorLayout />
@@ -36,12 +39,16 @@ export function IDEPage() {
               </Panel>
             </Group>
           </Panel>
-          <Separator className="panel-resize-handle" />
 
-          {/* Right Live Preview Panel */}
-          <Panel defaultSize="30%" minSize="20%" maxSize="50%">
-            <PreviewPanel />
-          </Panel>
+          {/* Right Live Preview Panel (toggleable) */}
+          {previewOpen && (
+            <>
+              <Separator className="panel-resize-handle" />
+              <Panel defaultSize="30%" minSize="20%" maxSize="50%">
+                <PreviewPanel />
+              </Panel>
+            </>
+          )}
         </Group>
       </div>
 

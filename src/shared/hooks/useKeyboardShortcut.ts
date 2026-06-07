@@ -23,7 +23,7 @@ export function useKeyboardShortcut(
       const matchAlt = !!combo.alt === e.altKey;
       const matchShift = !!combo.shift === e.shiftKey;
 
-      if (matchKey && (matchCtrl || matchMeta || matchAlt || matchShift)) {
+      if (matchKey && matchCtrl && matchMeta && matchAlt && matchShift) {
         e.preventDefault();
         callback(e);
       }

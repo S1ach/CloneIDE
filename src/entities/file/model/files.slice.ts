@@ -316,9 +316,40 @@ const filesSlice = createSlice({
       const { id, content } = action.payload;
       updateContentInTree(state.tree, id, content);
     },
+    uploadFiles(
+      state,
+      action: PayloadAction<
+        { parentId: string | null; name: string; content: string }[]
+      >,
+    ) {
+      for (const file of action.payload) {
+        const id = crypto.randomUUID
+          ? crypto.randomUUID()
+          : Math.random().toString(36).substring(7);
+
+        let parentPath = "";
+        if (file.parentId) {
+          const parent = findNodeById(state.tree, file.parentId);
+          if (parent) {
+            parentPath = parent.path;
+          }
+        }
+        const path = `${parentPath}/${file.name}`;
+
+        const newNode: FileNode = {
+          id,
+          name: file.name,
+          path,
+          type: "file",
+          content: file.content,
+        };
+
+        insertNode(state.tree, file.parentId, newNode);
+      }
+    },
   },
 });
 
-export const { createNode, deleteNode, renameNode, updateContent } =
+export const { createNode, deleteNode, renameNode, updateContent, uploadFiles } =
   filesSlice.actions;
 export const filesReducer = filesSlice.reducer;

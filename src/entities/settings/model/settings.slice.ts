@@ -7,6 +7,8 @@ interface SettingsState {
   fontSize: number;
   wordWrap: boolean;
   minimap: boolean;
+  previewOpen: boolean;
+  previewActiveTabId: string;
 }
 
 const initialState: SettingsState = {
@@ -14,6 +16,8 @@ const initialState: SettingsState = {
   fontSize: 14,
   wordWrap: true,
   minimap: false,
+  previewOpen: true,
+  previewActiveTabId: "preview",
 };
 
 const settingsSlice = createSlice({
@@ -32,9 +36,25 @@ const settingsSlice = createSlice({
     toggleMinimap(state) {
       state.minimap = !state.minimap;
     },
+    togglePreview(state) {
+      state.previewOpen = !state.previewOpen;
+    },
+    setPreviewOpen(state, action: PayloadAction<boolean>) {
+      state.previewOpen = action.payload;
+    },
+    setPreviewActiveTabId(state, action: PayloadAction<string>) {
+      state.previewActiveTabId = action.payload;
+    },
   },
 });
 
-export const { setTheme, setFontSize, toggleWordWrap, toggleMinimap } =
-  settingsSlice.actions;
+export const {
+  setTheme,
+  setFontSize,
+  toggleWordWrap,
+  toggleMinimap,
+  togglePreview,
+  setPreviewOpen,
+  setPreviewActiveTabId,
+} = settingsSlice.actions;
 export const settingsReducer = settingsSlice.reducer;

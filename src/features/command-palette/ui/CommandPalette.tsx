@@ -10,6 +10,7 @@ import {
   Eye,
   AlignLeft,
   RefreshCw,
+  Play,
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/app/providers/store";
 import { openTab } from "@/entities/tab/model/tabs.slice";
@@ -17,6 +18,7 @@ import {
   setTheme,
   toggleMinimap,
   toggleWordWrap,
+  togglePreview,
 } from "@/entities/settings/model/settings.slice";
 import { clearLogs } from "@/entities/terminal/model/terminal.slice";
 import { setCreationNode } from "@/entities/explorer/model/explorer.slice";
@@ -47,6 +49,9 @@ export function CommandPalette() {
     setIsOpen((prev) => !prev),
   );
   useKeyboardShortcut({ key: "p", ctrl: true }, () =>
+    setIsOpen((prev) => !prev),
+  );
+  useKeyboardShortcut({ key: "p", ctrl: true, shift: true }, () =>
     setIsOpen((prev) => !prev),
   );
 
@@ -118,6 +123,15 @@ export function CommandPalette() {
       icon: <Terminal className="h-4 w-4" />,
       action: () => {
         dispatch(clearLogs());
+      },
+    },
+    {
+      id: "toggle-preview",
+      name: "Toggle Preview Panel",
+      category: "Commands",
+      icon: <Play className="h-4 w-4 text-emerald-400" />,
+      action: () => {
+        dispatch(togglePreview());
       },
     },
   ];

@@ -35,21 +35,19 @@ export function SettingsPanel() {
           <div className="grid grid-cols-2 gap-2 bg-bg-panel p-1 rounded-lg border border-border-primary">
             <button
               onClick={() => dispatch(setTheme("dark"))}
-              className={`flex items-center justify-center gap-2 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                theme === "dark"
-                  ? "bg-accent-primary text-white shadow-sm"
-                  : "text-text-secondary hover:text-text-primary"
-              }`}
+              className={`flex items-center justify-center gap-2 py-1.5 rounded-md text-xs font-medium transition-colors ${theme === "dark"
+                ? "bg-accent-primary text-white shadow-sm"
+                : "text-text-secondary hover:text-text-primary"
+                }`}
             >
               <Moon className="h-3.5 w-3.5" /> Dark
             </button>
             <button
               onClick={() => dispatch(setTheme("light"))}
-              className={`flex items-center justify-center gap-2 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                theme === "light"
-                  ? "bg-accent-primary text-white shadow-sm"
-                  : "text-text-secondary hover:text-text-primary"
-              }`}
+              className={`flex items-center justify-center gap-2 py-1.5 rounded-md text-xs font-medium transition-colors ${theme === "light"
+                ? "bg-accent-primary text-white shadow-sm"
+                : "text-text-secondary hover:text-text-primary"
+                }`}
             >
               <Sun className="h-3.5 w-3.5" /> Light
             </button>
@@ -85,7 +83,7 @@ export function SettingsPanel() {
           {/* Minimap toggle check */}
           <div
             onClick={() => dispatch(toggleMinimap())}
-            className="flex items-center justify-between p-2 rounded-md hover:bg-hover-bg cursor-pointer select-none"
+            className="flex items-center justify-between p-1 rounded-md hover:bg-hover-bg cursor-pointer select-none"
           >
             <span className="text-xs text-text-primary flex items-center gap-2">
               <Eye className="h-3.5 w-3.5 text-text-secondary" /> Show Minimap
@@ -93,7 +91,7 @@ export function SettingsPanel() {
             <input
               type="checkbox"
               checked={minimap}
-              onChange={() => {}} // Redux handler is bound on container div click
+              onChange={() => { }} // Redux handler is bound on container div click
               className="accent-accent-primary pointer-events-none"
             />
           </div>
@@ -101,7 +99,7 @@ export function SettingsPanel() {
           {/* Wordwrap toggle check */}
           <div
             onClick={() => dispatch(toggleWordWrap())}
-            className="flex items-center justify-between p-2 rounded-md hover:bg-hover-bg cursor-pointer select-none"
+            className="flex items-center justify-between p-1 rounded-md hover:bg-hover-bg cursor-pointer select-none"
           >
             <span className="text-xs text-text-primary flex items-center gap-2">
               <WrapText className="h-3.5 w-3.5 text-text-secondary" /> Enable
@@ -110,7 +108,7 @@ export function SettingsPanel() {
             <input
               type="checkbox"
               checked={wordWrap}
-              onChange={() => {}}
+              onChange={() => { }}
               className="accent-accent-primary pointer-events-none"
             />
           </div>
