@@ -1,36 +1,194 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# 🖥️ CloneIDE — Browser-Based Code Editor
 
-First, run the development server:
+### A feature-rich CodeSandbox / VS Code clone built with Next.js 16, Monaco Editor, and Redux Toolkit
+
+[![Next.js](https://img.shields.io/badge/Next.js-16.2.7-black.svg?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.2.4-blue.svg?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
+[![Monaco Editor](https://img.shields.io/badge/Monaco_Editor-4.7.0-007ACC.svg?style=for-the-badge&logo=visualstudiocode&logoColor=white)](https://microsoft.github.io/monaco-editor/)
+[![Redux Toolkit](https://img.shields.io/badge/Redux_Toolkit-2.12.0-purple.svg?style=for-the-badge&logo=redux&logoColor=white)](https://redux-toolkit.js.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6.svg?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.0.0-38B2AC.svg?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+
+</div>
+
+---
+
+## ✨ Key Features
+
+### 📝 Monaco Code Editor
+- Full **Monaco Editor** integration (same engine as VS Code)
+- Syntax highlighting for HTML, CSS, JS, TS, JSON, Markdown
+- Configurable **font size**, **word wrap**, and **minimap** toggle
+- Smooth cursor blinking and caret animation
+- Real-time cursor position indicator (Ln / Col) in the status bar
+- Unsaved changes indicator with dirty file dot
+
+### 📁 File Explorer
+- Interactive **file tree** with nested folder support
+- **Drag & drop** files to reorder or open in editor
+- **Context menu** (right-click) — create files/folders, rename, delete
+- File type icons (HTML, CSS, JS, TS, JSON, MD, SVG, and more)
+- Collapsible folder nodes with expand/collapse chevrons
+
+### 🔎 Search
+- **Full-text search** across all files in the virtual workspace
+- Instant result highlighting with file path and line numbers
+
+### 🖥️ Integrated Terminal
+- Interactive terminal emulator with command prompt (`$`)
+- Built-in commands: `help`, `ls`, `touch`, `mkdir`, `rm`, `cat`, `clear`, `theme`, `npm run dev`
+- Color-coded output: errors (red), warnings (yellow), info (blue)
+- Auto-scroll to latest output
+
+### 🌐 Live Preview Panel
+- **Real-time HTML/CSS/JS preview** rendered in a sandboxed iframe
+- Auto-compiles `index.html` + `styles.css` + `index.js` from workspace
+- Console output proxying — `console.log` / `console.error` from preview → terminal
+- **Multi-tab browser** with address bar and URL navigation
+- Open external URLs in additional browser tabs
+- Refresh, back/forward navigation controls
+
+### ⌨️ Command Palette
+- **Fuzzy file search** with `Ctrl+P` / `Cmd+P`
+- **Command palette** with `Ctrl+Shift+P` / `Cmd+Shift+P`
+- Quick access to all IDE actions
+
+### 🎨 Theming & Settings
+- **Dark / Light** theme toggle
+- Font size adjustment
+- Word wrap on/off
+- Minimap on/off
+- Preview panel visibility toggle
+
+### 🧩 Resizable Panels
+- Fully **resizable panel layout** (sidebar ↔ editor ↔ preview)
+- Vertical split: editor ↔ terminal
+- Drag panel separators to resize
+
+### ⌨️ Keyboard Shortcuts
+
+| Shortcut | Action |
+|:---|:---|
+| `Ctrl/⌘ + Shift + P` | Command Palette |
+| `Ctrl/⌘ + P` | Quick Open File |
+| `Ctrl/⌘ + Shift + E` | File Explorer |
+| `Ctrl/⌘ + Shift + F` | Search in Files |
+| `Ctrl/⌘ + S` | Save & Compile |
+| `Ctrl/⌘ + W` | Close Active Tab |
+
+---
+
+## 📦 Installation & Setup
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) **v18.x** or newer
+
+### Quick Start
 
 ```bash
+# 1. Clone the repository
+git clone https://github.com/S1ach/CloneIDE.git
+cd CloneIDE
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## ⚙️ Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Technology | Purpose | Version |
+|:---|:---|:---|
+| **[Next.js](https://nextjs.org/)** | React SSR framework with App Router | `16.2.7` |
+| **[React](https://react.dev/)** | UI library with hooks and Server Components | `19.2.4` |
+| **[Monaco Editor](https://microsoft.github.io/monaco-editor/)** | VS Code's code editor engine for the browser | `4.7.0` |
+| **[Redux Toolkit](https://redux-toolkit.js.org/)** | Global state management for files, tabs, settings | `2.12.0` |
+| **[Tailwind CSS](https://tailwindcss.com/)** | Utility-first CSS with custom design tokens | `v4` |
+| **[TypeScript](https://www.typescriptlang.org/)** | Static type-checking across the entire codebase | `5.x` |
+| **[Radix UI](https://www.radix-ui.com/)** | Accessible primitives (Context Menu, Dialog, Tooltip, ScrollArea) | `^2.x` |
+| **[Lucide React](https://lucide.dev/)** | Beautiful, consistent icon library | `1.17.0` |
+| **[react-resizable-panels](https://github.com/bvaughn/react-resizable-panels)** | Resizable panel layout system | `4.11.2` |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📖 Project Architecture
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Built with **[Feature-Sliced Design (FSD)](https://feature-sliced.design/)** methodology:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+├── app/                          # Application layer
+│   ├── globals.css               # Design tokens & global styles
+│   ├── layout.tsx                # Root layout with font loading
+│   └── providers/                # Redux store provider
+│
+├── app-pages/                    # Page-level compositions
+│   └── ide/                      # Main IDE page assembly
+│       └── ui/IDEPage.tsx        # Resizable panel layout orchestrator
+│
+├── entities/                     # Business domain state
+│   ├── editor/                   # Cursor position, language, dirty state
+│   ├── explorer/                 # Sidebar active panel tracking
+│   ├── file/                     # Virtual file tree (FileNode[])
+│   ├── settings/                 # Theme, font size, minimap, preview toggle
+│   ├── tab/                      # Opened tabs & active tab management
+│   └── terminal/                 # Terminal log entries
+│
+├── features/                     # User-facing features
+│   └── command-palette/          # Fuzzy search & command palette modal
+│
+├── shared/                       # Shared infrastructure
+│   ├── hooks/                    # useKeyboardShortcut, usePlatform
+│   ├── lib/                      # Utility functions (cn)
+│   └── ui/                       # Reusable primitives (ScrollArea)
+│
+└── widgets/                      # Composite UI blocks
+    ├── activity-bar/             # Left icon bar (Explorer, Search, Settings)
+    ├── browser-tab/              # Browser tab bar primitives
+    ├── editor-layout/            # Monaco editor + tab bar + status bar
+    ├── preview-panel/            # Live preview iframe + browser chrome
+    ├── sidebar/                  # FileExplorer, SearchPanel, SettingsPanel
+    └── terminal-panel/           # Interactive terminal emulator
+```
+
+---
+
+## 🛠️ Available Scripts
+
+| Command | Description |
+|:---|:---|
+| `npm run dev` | Start development server |
+| `npm run build` | Create optimized production build |
+| `npm run start` | Run the production server |
+| `npm run lint` | Run ESLint |
+
+---
+
+## 🎨 Code Quality
+
+- **[ESLint](https://eslint.org/)** — Next.js recommended rules
+- **[Prettier](https://prettier.io/)** — Consistent formatting
+- **[Husky](https://typicode.github.io/husky/)** — Pre-commit hooks
+- **[lint-staged](https://github.com/lint-staged/lint-staged)** — Lint only staged files
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
