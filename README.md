@@ -17,58 +17,6 @@
 
 ---
 
-## ✨ Key Features
-
-### 📝 Monaco Code Editor
-- Full **Monaco Editor** integration (same engine as VS Code)
-- Syntax highlighting for HTML, CSS, JS, TS, JSON, Markdown
-- Configurable **font size**, **word wrap**, and **minimap** toggle
-- Smooth cursor blinking and caret animation
-- Real-time cursor position indicator (Ln / Col) in the status bar
-- Unsaved changes indicator with dirty file dot
-
-### 📁 File Explorer
-- Interactive **file tree** with nested folder support
-- **Drag & drop** files to reorder or open in editor
-- **Context menu** (right-click) — create files/folders, rename, delete
-- File type icons (HTML, CSS, JS, TS, JSON, MD, SVG, and more)
-- Collapsible folder nodes with expand/collapse chevrons
-
-### 🔎 Search
-- **Full-text search** across all files in the virtual workspace
-- Instant result highlighting with file path and line numbers
-
-### 🖥️ Integrated Terminal
-- Interactive terminal emulator with command prompt (`$`)
-- Built-in commands: `help`, `ls`, `touch`, `mkdir`, `rm`, `cat`, `clear`, `theme`, `npm run dev`
-- Color-coded output: errors (red), warnings (yellow), info (blue)
-- Auto-scroll to latest output
-
-### 🌐 Live Preview Panel
-- **Real-time HTML/CSS/JS preview** rendered in a sandboxed iframe
-- Auto-compiles `index.html` + `styles.css` + `index.js` from workspace
-- Console output proxying — `console.log` / `console.error` from preview → terminal
-- **Multi-tab browser** with address bar and URL navigation
-- Open external URLs in additional browser tabs
-- Refresh, back/forward navigation controls
-
-### ⌨️ Command Palette
-- **Fuzzy file search** with `Ctrl+P` / `Cmd+P`
-- **Command palette** with `Ctrl+Shift+P` / `Cmd+Shift+P`
-- Quick access to all IDE actions
-
-### 🎨 Theming & Settings
-- **Dark / Light** theme toggle
-- Font size adjustment
-- Word wrap on/off
-- Minimap on/off
-- Preview panel visibility toggle
-
-### 🧩 Resizable Panels
-- Fully **resizable panel layout** (sidebar ↔ editor ↔ preview)
-- Vertical split: editor ↔ terminal
-- Drag panel separators to resize
-
 ### ⌨️ Keyboard Shortcuts
 
 | Shortcut | Action |
@@ -180,17 +128,3 @@ src/
 | `npm run start` | Run the production server |
 | `npm run lint` | Run ESLint |
 
----
-
-## 🎨 Code Quality
-
-- **[ESLint](https://eslint.org/)** — Next.js recommended rules
-- **[Prettier](https://prettier.io/)** — Consistent formatting
-- **[Husky](https://typicode.github.io/husky/)** — Pre-commit hooks
-- **[lint-staged](https://github.com/lint-staged/lint-staged)** — Lint only staged files
-
----
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
