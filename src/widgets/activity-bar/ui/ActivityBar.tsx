@@ -1,13 +1,24 @@
 "use client";
 
 import React from "react";
-import { Files, Search, Settings, Sun, Moon, Play } from "lucide-react";
+import {
+  Files,
+  Search,
+  Settings,
+  Sun,
+  Moon,
+  Play,
+  FileClock,
+} from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/app/providers/store";
 import {
   setActiveView,
   SidebarView,
 } from "@/entities/explorer/model/explorer.slice";
-import { setTheme, togglePreview } from "@/entities/settings/model/settings.slice";
+import {
+  setTheme,
+  togglePreview,
+} from "@/entities/settings/model/settings.slice";
 import {
   Tooltip,
   TooltipTrigger,
@@ -30,6 +41,9 @@ export function ActivityBar() {
   useKeyboardShortcut({ key: "f", ctrl: true, shift: true }, () => {
     dispatch(setActiveView("search"));
   });
+  useKeyboardShortcut({ key: "h", ctrl: true, shift: true }, () => {
+    dispatch(setActiveView("history"));
+  });
 
   const mod = useModKey();
 
@@ -43,6 +57,11 @@ export function ActivityBar() {
       view: "search",
       label: `Search Files (${mod}+Shift+F)`,
       icon: <Search className="h-5 w-5" />,
+    },
+    {
+      view: "history",
+      label: `File History (${mod}+Shift+H)`,
+      icon: <FileClock className="h-5 w-5" />,
     },
     {
       view: "settings",
@@ -65,10 +84,11 @@ export function ActivityBar() {
               <TooltipTrigger asChild>
                 <button
                   onClick={() => dispatch(setActiveView(item.view))}
-                  className={`group relative flex h-10 w-10 items-center justify-center rounded-lg transition-all ${activeView === item.view
+                  className={`group relative flex h-10 w-10 items-center justify-center rounded-lg transition-all ${
+                    activeView === item.view
                       ? "bg-accent-muted text-accent-primary"
                       : "text-text-secondary hover:bg-hover-bg hover:text-text-primary"
-                    }`}
+                  }`}
                 >
                   {item.icon}
                   {activeView === item.view && (
@@ -87,10 +107,11 @@ export function ActivityBar() {
             <TooltipTrigger asChild>
               <button
                 onClick={() => dispatch(togglePreview())}
-                className={`group relative flex h-10 w-10 items-center justify-center rounded-lg transition-all ${previewOpen
+                className={`group relative flex h-10 w-10 items-center justify-center rounded-lg transition-all ${
+                  previewOpen
                     ? "bg-accent-muted text-accent-primary"
                     : "text-text-secondary hover:bg-hover-bg hover:text-text-primary"
-                  }`}
+                }`}
               >
                 <Play className="h-5 w-5" />
                 {previewOpen && (
@@ -104,7 +125,7 @@ export function ActivityBar() {
           </Tooltip>
         </div>
 
-        {/* Lower Icons - Theme switch & Avatar */}
+        {/* Lower Icons - Theme switch */}
         <div className="flex flex-col gap-4">
           <Tooltip delayDuration={300}>
             <TooltipTrigger asChild>
@@ -123,10 +144,6 @@ export function ActivityBar() {
               <p>Toggle Color Theme</p>
             </TooltipContent>
           </Tooltip>
-
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent-primary font-semibold text-xs text-white shadow-sm cursor-pointer hover:opacity-90">
-            CS
-          </div>
         </div>
       </div>
     </TooltipProvider>

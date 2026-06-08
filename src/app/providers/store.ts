@@ -7,6 +7,7 @@ import { tabsReducer } from "@/entities/tab/model/tabs.slice";
 import { terminalReducer } from "@/entities/terminal/model/terminal.slice";
 import { explorerReducer } from "@/entities/explorer/model/explorer.slice";
 import { settingsReducer } from "@/entities/settings/model/settings.slice";
+import { historyReducer } from "@/entities/history/model/history.slice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     terminal: terminalReducer,
     explorer: explorerReducer,
     settings: settingsReducer,
+    history: historyReducer,
   },
 });
 

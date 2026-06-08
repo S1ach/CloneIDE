@@ -5,7 +5,7 @@ export interface CreationState {
   type: "file" | "folder";
 }
 
-export type SidebarView = "explorer" | "search" | "settings";
+export type SidebarView = "explorer" | "search" | "settings" | "history";
 
 interface ExplorerState {
   expandedFolders: string[];

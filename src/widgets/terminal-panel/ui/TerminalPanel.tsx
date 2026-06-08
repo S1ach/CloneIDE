@@ -1,10 +1,14 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Terminal, Trash2, RotateCcw } from "lucide-react";
+import { Terminal, Trash2 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/app/providers/store";
 import { addLog, clearLogs } from "@/entities/terminal/model/terminal.slice";
-import { setTheme, setPreviewOpen, setPreviewActiveTabId } from "@/entities/settings/model/settings.slice";
+import {
+  setTheme,
+  setPreviewOpen,
+  setPreviewActiveTabId,
+} from "@/entities/settings/model/settings.slice";
 import { FileNode } from "@/entities/file/types";
 import { ScrollArea } from "@/shared/ui/ScrollArea";
 import { createNode, deleteNode } from "@/entities/file/model/files.slice";
@@ -109,13 +113,22 @@ export function TerminalPanel() {
         dispatch(addLog("Available commands:"));
         dispatch(addLog("  help                Display list of commands"));
         dispatch(addLog("  clear               Clear terminal logs"));
-        dispatch(addLog("  ls                  List all files in workspace tree"));
+        dispatch(
+          addLog("  ls                  List all files in workspace tree"),
+        );
         dispatch(addLog("  touch <filename>    Create a new empty file"));
         dispatch(addLog("  mkdir <dirname>     Create a new folder"));
         dispatch(addLog("  rm <path>           Delete a file or folder"));
         dispatch(addLog("  cat <filename>      Print file content"));
         dispatch(addLog("  theme <light|dark>  Toggle color theme"));
-        dispatch(addLog("  npm run dev         Start Next.js mockup dev server"));
+        dispatch(
+          addLog("  npm run dev         Start Next.js mockup dev server"),
+        );
+        dispatch(
+          addLog(
+            "  js <expr>           Evaluate JavaScript code inside active Preview Sandbox",
+          ),
+        );
         break;
 
       case "clear":
@@ -139,14 +152,22 @@ export function TerminalPanel() {
         }
         const resolved = resolvePath(fileTree, path);
         if (!resolved) {
-          dispatch(addLog(`touch: cannot touch '${path}': No such file or directory`));
+          dispatch(
+            addLog(`touch: cannot touch '${path}': No such file or directory`),
+          );
           break;
         }
         const existing = findNodeByPath(fileTree, path);
         if (existing) {
           break;
         }
-        dispatch(createNode({ parentId: resolved.parentId, name: resolved.name, type: "file" }));
+        dispatch(
+          createNode({
+            parentId: resolved.parentId,
+            name: resolved.name,
+            type: "file",
+          }),
+        );
         dispatch(addLog(`Created file: ${path}`));
         break;
       }
@@ -159,15 +180,27 @@ export function TerminalPanel() {
         }
         const resolved = resolvePath(fileTree, path);
         if (!resolved) {
-          dispatch(addLog(`mkdir: cannot create directory '${path}': No such file or directory`));
+          dispatch(
+            addLog(
+              `mkdir: cannot create directory '${path}': No such file or directory`,
+            ),
+          );
           break;
         }
         const existing = findNodeByPath(fileTree, path);
         if (existing) {
-          dispatch(addLog(`mkdir: cannot create directory '${path}': File exists`));
+          dispatch(
+            addLog(`mkdir: cannot create directory '${path}': File exists`),
+          );
           break;
         }
-        dispatch(createNode({ parentId: resolved.parentId, name: resolved.name, type: "folder" }));
+        dispatch(
+          createNode({
+            parentId: resolved.parentId,
+            name: resolved.name,
+            type: "folder",
+          }),
+        );
         dispatch(addLog(`Created directory: ${path}`));
         break;
       }
@@ -180,7 +213,9 @@ export function TerminalPanel() {
         }
         const node = findNodeByPath(fileTree, path);
         if (!node) {
-          dispatch(addLog(`rm: cannot remove '${path}': No such file or directory`));
+          dispatch(
+            addLog(`rm: cannot remove '${path}': No such file or directory`),
+          );
           break;
         }
         dispatch(deleteNode(node.id));
@@ -230,6 +265,30 @@ export function TerminalPanel() {
           );
         }
         break;
+
+      case "js": {
+        const expression = args.join(" ");
+        if (!expression) {
+          dispatch(addLog("Usage: js <javascript expression>"));
+          break;
+        }
+        const iframe = document.querySelector(
+          'iframe[title="Sandbox Live Preview"]',
+        ) as HTMLIFrameElement;
+        if (iframe && iframe.contentWindow) {
+          iframe.contentWindow.postMessage(
+            { type: "EVAL_JS", code: expression },
+            "*",
+          );
+        } else {
+          dispatch(
+            addLog(
+              "error: Live Preview sandbox is not active or running. Please open it first.",
+            ),
+          );
+        }
+        break;
+      }
 
       default:
         dispatch(addLog(`bash: command not found: ${primaryCmd}`));

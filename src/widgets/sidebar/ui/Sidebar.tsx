@@ -5,6 +5,7 @@ import { useAppSelector } from "@/app/providers/store";
 import { FileExplorer } from "./FileExplorer";
 import { SearchPanel } from "./SearchPanel";
 import { SettingsPanel } from "./SettingsPanel";
+import { HistoryPanel } from "./HistoryPanel";
 import { ScrollArea } from "@/shared/ui/ScrollArea";
 
 export function Sidebar() {
@@ -16,6 +17,8 @@ export function Sidebar() {
         return <FileExplorer />;
       case "search":
         return <SearchPanel />;
+      case "history":
+        return <HistoryPanel />;
       case "settings":
         return <SettingsPanel />;
       default:

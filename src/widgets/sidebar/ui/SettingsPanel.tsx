@@ -8,6 +8,8 @@ import {
   setFontSize,
   toggleWordWrap,
   toggleMinimap,
+  setEditorTheme,
+  EditorTheme,
 } from "@/entities/settings/model/settings.slice";
 
 export function SettingsPanel() {
@@ -16,6 +18,8 @@ export function SettingsPanel() {
   const fontSize = useAppSelector((state) => state.settings.fontSize);
   const wordWrap = useAppSelector((state) => state.settings.wordWrap);
   const minimap = useAppSelector((state) => state.settings.minimap);
+  const editorTheme =
+    useAppSelector((state) => state.settings.editorTheme) || "vs-dark";
 
   const fontSizes = [12, 14, 16, 18, 20];
 
@@ -35,19 +39,21 @@ export function SettingsPanel() {
           <div className="grid grid-cols-2 gap-2 bg-bg-panel p-1 rounded-lg border border-border-primary">
             <button
               onClick={() => dispatch(setTheme("dark"))}
-              className={`flex items-center justify-center gap-2 py-1.5 rounded-md text-xs font-medium transition-colors ${theme === "dark"
-                ? "bg-accent-primary text-white shadow-sm"
-                : "text-text-secondary hover:text-text-primary"
-                }`}
+              className={`flex items-center justify-center gap-2 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                theme === "dark"
+                  ? "bg-accent-primary text-white shadow-sm"
+                  : "text-text-secondary hover:text-text-primary"
+              }`}
             >
               <Moon className="h-3.5 w-3.5" /> Dark
             </button>
             <button
               onClick={() => dispatch(setTheme("light"))}
-              className={`flex items-center justify-center gap-2 py-1.5 rounded-md text-xs font-medium transition-colors ${theme === "light"
-                ? "bg-accent-primary text-white shadow-sm"
-                : "text-text-secondary hover:text-text-primary"
-                }`}
+              className={`flex items-center justify-center gap-2 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                theme === "light"
+                  ? "bg-accent-primary text-white shadow-sm"
+                  : "text-text-secondary hover:text-text-primary"
+              }`}
             >
               <Sun className="h-3.5 w-3.5" /> Light
             </button>
@@ -72,6 +78,26 @@ export function SettingsPanel() {
           </select>
         </div>
 
+        {/* Editor Theme selection */}
+        <div className="space-y-2">
+          <label className="text-xs font-semibold text-text-secondary flex items-center gap-2">
+            <Layout className="h-3.5 w-3.5" /> Editor Theme
+          </label>
+          <select
+            value={editorTheme}
+            onChange={(e) =>
+              dispatch(setEditorTheme(e.target.value as EditorTheme))
+            }
+            className="w-full bg-input-bg text-text-primary text-xs border border-input-border px-3 py-2 rounded-lg outline-none cursor-pointer focus:border-accent-primary"
+          >
+            <option value="vs-dark">Default Dark</option>
+            <option value="light">Default Light</option>
+            <option value="cyberpunk">Cyberpunk Neon</option>
+            <option value="monokai">Monokai</option>
+            <option value="github-light">GitHub Light</option>
+          </select>
+        </div>
+
         <div className="border-t border-border-primary my-4" />
 
         {/* Layout & Editor Features options */}
@@ -91,7 +117,7 @@ export function SettingsPanel() {
             <input
               type="checkbox"
               checked={minimap}
-              onChange={() => { }} // Redux handler is bound on container div click
+              onChange={() => {}} // Redux handler is bound on container div click
               className="accent-accent-primary pointer-events-none"
             />
           </div>
@@ -108,7 +134,7 @@ export function SettingsPanel() {
             <input
               type="checkbox"
               checked={wordWrap}
-              onChange={() => { }}
+              onChange={() => {}}
               className="accent-accent-primary pointer-events-none"
             />
           </div>

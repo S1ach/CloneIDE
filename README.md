@@ -4,6 +4,8 @@
 
 ### A feature-rich CodeSandbox / VS Code clone built with Next.js 16, Monaco Editor, and Redux Toolkit
 
+![CloneIDE Preview](public/ide_preview.png)
+
 [![Next.js](https://img.shields.io/badge/Next.js-16.2.7-black.svg?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2.4-blue.svg?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
 [![Monaco Editor](https://img.shields.io/badge/Monaco_Editor-4.7.0-007ACC.svg?style=for-the-badge&logo=visualstudiocode&logoColor=white)](https://microsoft.github.io/monaco-editor/)
